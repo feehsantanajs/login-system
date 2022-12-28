@@ -18,23 +18,30 @@ db.connect(function(err:any) {
 
  app.use(express.json());
  app.use(cors());
-interface GetDatasProps{
-    name: String;
-    email: String;
-    password: String;
-}
-
 
 app.post("/register", (req: Request, res: Response) => {
-    res.send("hello")
+    
     const user = req.body.user;
     const email = req.body.email;
-    const password = req.body.password
-    db.query(`INSERT INTO user (name, email, password) VALUES ('${user}', '${email}', '${password}')`, (error, result) =>{
-        if(error){
-            console.log("erro")
+    const password = req.body.password;
+
+    db.query(`SELECT * from user where email = '${email}'`, (error, result) =>{
+        if(!error){
+            const resultQty = Object.keys(result).length
+            if(resultQty < 1){
+                db.query(`INSERT INTO user (name, email, password) VALUES ('${user}', '${email}', '${password}')`, (error, result) =>{
+                    if(!error){
+                        res.send("cadastrado com sucesso")
+                    }else{
+                        console.log("Erro no cadastro", error)
+                    }
+                })
+            }else{
+                res.send("This email is register yet !")
+            }
         }else{
-            console.log("good")
+            res.send(error)
+            console.log("Error at verification!")
         }
     })
 })

@@ -10,7 +10,7 @@ export function Register() {
             user: values.user,
             email: values.email,
             password: values.confirmPass
-        }).then(response => console.log(response))
+        }).then(response =>alert(response.data))
     }
     const validationRegister = yup.object().shape({
         user: yup.string(),
