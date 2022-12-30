@@ -1,14 +1,18 @@
+import axios from "axios";
 import { ErrorMessage, Field, Form, Formik } from "formik"
 import * as yup from 'yup'
 export function Login(){
 
     const handleLogin = (values: any) =>{
-     console.log("teste")
+      axios.post("http://localhost:3001/login",{
+        email: values.email,
+        password: values.password
+      }).then(res => alert(res.data.response))
     }
   
     const validationLogin = yup.object().shape({
       email: yup.string().email().required(),
-      password: yup.string().min(8).required()
+      
     })
     return (
       <main className='w-full h-screen  flex flex-col items-center justify-center bg-gray-100'>

@@ -46,6 +46,30 @@ app.post("/register", (req: Request, res: Response) => {
     })
 })
 
+app.post("/login", (req: Request, res: Response) => {
+    
+    const email = req.body.email;
+    const password = req.body.password;
+
+    db.query("SELECT * FROM user WHERE email = ? AND password = ? ", [email, password], (error, result) =>{
+        if(!error){
+            const data = Object.keys(result)
+            if(data.length > 0){
+                res.send({
+                    response: "Logado com sucesso"
+                });
+            }
+            else{
+                res.send({
+                    response: "Algo deu ruim, verificar senha ou email"
+                });
+            }
+        }else{
+            res.send(error);
+        }
+    })
+})
+
 app.listen(3001, ()=>{
     console.log("rodando o server")
     

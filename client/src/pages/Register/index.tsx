@@ -9,7 +9,7 @@ export function Register() {
         axios.post("http://localhost:3001/register", {
             user: values.user,
             email: values.email,
-            password: values.confirmPass
+            password: values.confirmPassword
         }).then(response =>alert(response.data))
     }
     const validationRegister = yup.object().shape({
